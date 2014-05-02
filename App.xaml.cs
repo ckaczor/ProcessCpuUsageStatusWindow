@@ -1,17 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ProcessCpuUsageStatusWindow
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public partial class App
     {
+        private WindowSource _windowSource;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            _windowSource = new WindowSource();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            _windowSource.Dispose();
+
+            base.OnExit(e);
+        }
     }
 }
