@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using FloatingStatusWindowLibrary;
+using ProcessCpuUsageStatusWindow.Properties;
+using System.Diagnostics;
+using System.Windows;
 
 namespace ProcessCpuUsageStatusWindow
 {
@@ -9,6 +12,14 @@ namespace ProcessCpuUsageStatusWindow
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            StartManager.ManageAutoStart = true;
+            StartManager.AutoStartEnabled = !Debugger.IsAttached && Settings.Default.AutoStart;
+            StartManager.AutoStartChanged += (value =>
+            {
+                Settings.Default.AutoStart = value;
+                Settings.Default.Save();
+            });
 
             _windowSource = new WindowSource();
         }
