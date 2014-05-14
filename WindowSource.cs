@@ -1,4 +1,6 @@
-﻿using FloatingStatusWindowLibrary;
+﻿using System.Threading.Tasks;
+using System.Windows.Threading;
+using FloatingStatusWindowLibrary;
 using ProcessCpuUsageStatusWindow.Properties;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,9 @@ namespace ProcessCpuUsageStatusWindow
             _floatingStatusWindow.SetText(Resources.Loading);
 
             _processCpuUsageWatcher = new ProcessCpuUsageWatcher();
-            _processCpuUsageWatcher.Initialize(Settings.Default.UpdateInterval, UpdateDisplay);
+
+            var dispatcher = Dispatcher.CurrentDispatcher;
+            Task.Factory.StartNew(() => _processCpuUsageWatcher.Initialize(Settings.Default.UpdateInterval, UpdateDisplay, dispatcher));
         }
 
         public void Dispose()

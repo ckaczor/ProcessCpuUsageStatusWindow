@@ -32,9 +32,9 @@ namespace ProcessCpuUsageStatusWindow
 
         #region Initialize and terminate
 
-        public void Initialize(TimeSpan updateInterval, ProcessListUpdatedDelegate callback)
+        public void Initialize(TimeSpan updateInterval, ProcessListUpdatedDelegate callback, Dispatcher dispatcher)
         {
-            _dispatcher = Dispatcher.CurrentDispatcher;
+            _dispatcher = dispatcher;
 
             // Create a new dictionary for the process list
             CurrentProcessList = new Dictionary<string, ProcessCpuUsage>();
