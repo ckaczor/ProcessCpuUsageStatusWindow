@@ -33,6 +33,16 @@ namespace ProcessCpuUsageStatusWindow
             _floatingStatusWindow.Dispose();
         }
 
+        public void ShowSettings()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Refresh()
+        {
+            throw new NotImplementedException();
+        }
+
         public string Name
         {
             get { return "Process CPU Usage"; }
@@ -42,6 +52,9 @@ namespace ProcessCpuUsageStatusWindow
         {
             get { return Resources.ApplicationIcon; }
         }
+
+        public bool HasSettingsMenu => false;
+        public bool HasRefreshMenu => false;
 
         public string WindowSettings
         {
