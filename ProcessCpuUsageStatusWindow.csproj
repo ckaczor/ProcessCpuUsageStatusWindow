@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FloatingStatusWindowLibrary">
-      <HintPath>..\FloatingStatusWindowLibrary\FloatingStatusWindowLibrary\bin\Debug\FloatingStatusWindowLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
@@ -79,6 +76,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="LICENSE.md" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -89,7 +87,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.md" />
     <None Include="Resources\ApplicationIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="FloatingStatusWindow\Library\FloatingStatusWindow.csproj">
+      <Project>{f023a16c-2f13-4a87-a8b7-22c43c4a58a4}</Project>
+      <Name>FloatingStatusWindow</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
