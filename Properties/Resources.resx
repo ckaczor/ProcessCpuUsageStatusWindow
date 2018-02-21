@@ -121,6 +121,9 @@
   <data name="ApplicationIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ApplicationIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Process CPU Usage</value>
+  </data>
   <data name="FooterLine" xml:space="preserve">
     <value>CPU: {0,4:f1}% - Total</value>
   </data>

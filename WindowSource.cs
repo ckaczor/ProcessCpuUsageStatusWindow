@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Squirrel;
 
 namespace ProcessCpuUsageStatusWindow
 {
@@ -23,7 +24,17 @@ namespace ProcessCpuUsageStatusWindow
 
             var dispatcher = Dispatcher.CurrentDispatcher;
             Task.Factory.StartNew(() => _processCpuUsageWatcher.Initialize(Settings.Default.UpdateInterval, UpdateDisplay, dispatcher));
+
+            //CheckUpdate();
         }
+
+        //private static async void CheckUpdate()
+        //{
+        //    using (var updateManager = UpdateManager.GitHubUpdateManager("https://github.com/ckaczor/ProcessCpuUsageStatusWindow"))
+        //    {
+        //        await updateManager.Result.UpdateApp();
+        //    }
+        //}
 
         public void Dispose()
         {
@@ -35,33 +46,22 @@ namespace ProcessCpuUsageStatusWindow
 
         public void ShowSettings()
         {
-            throw new NotImplementedException();
         }
 
         public void Refresh()
         {
-            throw new NotImplementedException();
         }
 
-        public string Name
-        {
-            get { return "Process CPU Usage"; }
-        }
+        public string Name => Resources.ApplicationName;
 
-        public System.Drawing.Icon Icon
-        {
-            get { return Resources.ApplicationIcon; }
-        }
+        public System.Drawing.Icon Icon => Resources.ApplicationIcon;
 
         public bool HasSettingsMenu => false;
         public bool HasRefreshMenu => false;
 
         public string WindowSettings
         {
-            get
-            {
-                return Settings.Default.WindowSettings;
-            }
+            get => Settings.Default.WindowSettings;
             set
             {
                 Settings.Default.WindowSettings = value;

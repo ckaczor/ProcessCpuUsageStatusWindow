@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ProcessCpuUsageStatusWindow</id>
+    <version>$version$</version>
+    <authors>Chris Kaczor</authors>
+    <description>A "floating" status window that shows the top X processes by CPU usage.</description>
+    <projectUrl>https://github.com/ckaczor/ProcessCpuUsageStatusWindow</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/ckaczor/ProcessCpuUsageStatusWindow/master/LICENSE.md</licenseUrl>
+    <tags>cpu</tags>
+  </metadata>
+  <files>
+    <file src="bin\$configuration$\**\*" target="lib\net45" exclude="*.pdb;*.nupkg;*.vshost.*" />
+  </files>
+</package>
