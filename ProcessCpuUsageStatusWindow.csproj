@@ -91,10 +91,9 @@
     <None Include="Resources\ApplicationIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="FloatingStatusWindow\Library\FloatingStatusWindow.csproj">
-      <Project>{f023a16c-2f13-4a87-a8b7-22c43c4a58a4}</Project>
-      <Name>FloatingStatusWindow</Name>
-    </ProjectReference>
+    <PackageReference Include="FloatingStatusWindow">
+      <Version>1.0.0.6</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
