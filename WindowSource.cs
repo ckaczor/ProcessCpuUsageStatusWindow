@@ -45,7 +45,7 @@ namespace ProcessCpuUsageStatusWindow
                     _dispatcher.Invoke(() => _floatingStatusWindow.SetText(Resources.Updating));
                     Thread.Sleep(500);
 
-                    SettingsExtensions.BackupSettings();
+                    Common.Settings.Extensions.BackupSettings();
 
 #if !DEBUG
                     await updateManager.DownloadReleases(new[] { lastVersion });

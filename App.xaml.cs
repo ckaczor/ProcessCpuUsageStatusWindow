@@ -1,9 +1,9 @@
 ﻿using FloatingStatusWindowLibrary;
 using ProcessCpuUsageStatusWindow.Properties;
+using Squirrel;
 using System;
 using System.Diagnostics;
 using System.Windows;
-using Squirrel;
 
 namespace ProcessCpuUsageStatusWindow
 {
@@ -16,7 +16,7 @@ namespace ProcessCpuUsageStatusWindow
         [STAThread]
         public static void Main(string[] args)
         {
-            SquirrelAwareApp.HandleEvents(onAppUpdate: version => SettingsExtensions.RestoreSettings());
+            SquirrelAwareApp.HandleEvents(onAppUpdate: version => Common.Settings.Extensions.RestoreSettings());
 
             var application = new App();
             application.InitializeComponent();
