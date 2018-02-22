@@ -4,6 +4,7 @@ using Squirrel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -33,6 +34,8 @@ namespace ProcessCpuUsageStatusWindow
         {
             try
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
                 using (var updateManager = await UpdateManager.GitHubUpdateManager(App.UpdateUrl))
                 {
                     var updates = await updateManager.CheckForUpdate();
@@ -58,9 +61,9 @@ namespace ProcessCpuUsageStatusWindow
                 UpdateManager.RestartApp();
 #endif
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(exception);
             }
             finally
             {
