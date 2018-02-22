@@ -22,7 +22,7 @@ namespace ProcessCpuUsageStatusWindow.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ProcessCpuUsageStatusWindow.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,18 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Version: {0}.
+        /// </summary>
+        public static string About_Version {
+            get {
+                return ResourceManager.GetString("About_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon ApplicationIcon {
+        public static System.Drawing.Icon ApplicationIcon {
             get {
                 object obj = ResourceManager.GetObject("ApplicationIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
@@ -73,7 +82,7 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Process CPU Usage.
         /// </summary>
-        internal static string ApplicationName {
+        public static string ApplicationName {
             get {
                 return ResourceManager.GetString("ApplicationName", resourceCulture);
             }
@@ -82,7 +91,7 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         /// <summary>
         ///   Looks up a localized string similar to CPU: {0,4:f1}% - Total.
         /// </summary>
-        internal static string FooterLine {
+        public static string FooterLine {
             get {
                 return ResourceManager.GetString("FooterLine", resourceCulture);
             }
@@ -91,7 +100,7 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string HeaderLine {
+        public static string HeaderLine {
             get {
                 return ResourceManager.GetString("HeaderLine", resourceCulture);
             }
@@ -100,25 +109,98 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
-        internal static string Loading {
+        public static string Loading {
             get {
                 return ResourceManager.GetString("Loading", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Number of processes:.
+        /// </summary>
+        public static string NumberOfProcesses {
+            get {
+                return ResourceManager.GetString("NumberOfProcesses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string OptionCategory_About {
+            get {
+                return ResourceManager.GetString("OptionCategory_About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string OptionCategory_General {
+            get {
+                return ResourceManager.GetString("OptionCategory_General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string OptionsWindow_CancelButton {
+            get {
+                return ResourceManager.GetString("OptionsWindow_CancelButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon OptionsWindow_Icon {
+            get {
+                object obj = ResourceManager.GetObject("OptionsWindow_Icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string OptionsWindow_OkayButton {
+            get {
+                return ResourceManager.GetString("OptionsWindow_OkayButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        public static string OptionsWindow_Title {
+            get {
+                return ResourceManager.GetString("OptionsWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CPU: {1,4:f1}% - {0}.
         /// </summary>
-        internal static string ProcessLine {
+        public static string ProcessLine {
             get {
                 return ResourceManager.GetString("ProcessLine", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Start when Windows starts.
+        /// </summary>
+        public static string StartWithWindows {
+            get {
+                return ResourceManager.GetString("StartWithWindows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updating application....
         /// </summary>
-        internal static string Updating {
+        public static string Updating {
             get {
                 return ResourceManager.GetString("Updating", resourceCulture);
             }

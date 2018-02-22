@@ -1,15 +1,15 @@
-﻿using FloatingStatusWindowLibrary;
+﻿using Common.Wpf.Windows;
+using FloatingStatusWindowLibrary;
+using ProcessCpuUsageStatusWindow.Options;
 using ProcessCpuUsageStatusWindow.Properties;
 using Squirrel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Threading;
 
 namespace ProcessCpuUsageStatusWindow
@@ -19,6 +19,8 @@ namespace ProcessCpuUsageStatusWindow
         private readonly FloatingStatusWindow _floatingStatusWindow;
         private readonly ProcessCpuUsageWatcher _processCpuUsageWatcher;
         private readonly Dispatcher _dispatcher = Dispatcher.CurrentDispatcher;
+
+        private CategoryWindow _optionsWindow;
 
         internal WindowSource()
         {
@@ -81,25 +83,43 @@ namespace ProcessCpuUsageStatusWindow
 
         public void ShowSettings()
         {
+            var panels = new List<CategoryPanel>
+            {
+                new GeneralOptionsPanel(),
+                new AboutOptionsPanel()
+            };
+
+            if (_optionsWindow == null)
+            {
+                _optionsWindow = new CategoryWindow(null, panels, Resources.ResourceManager, "OptionsWindow");
+                _optionsWindow.Closed += (o, args) => { _optionsWindow = null; };
+            }
+
+            var dialogResult = _optionsWindow.ShowDialog();
+
+            if (dialogResult.HasValue && dialogResult.Value)
+            {
+                Settings.Default.Save();
+
+                Refresh();
+            }
         }
 
         public void Refresh()
         {
+            UpdateDisplay(_processCpuUsageWatcher.CurrentProcessList);
         }
 
         public string Name => Resources.ApplicationName;
 
         public System.Drawing.Icon Icon => Resources.ApplicationIcon;
 
-        public bool HasSettingsMenu => false;
-        public bool HasRefreshMenu => false;
-        public bool HasAboutMenu => true;
+        public bool HasSettingsMenu => true;
+        public bool HasRefreshMenu => true;
+        public bool HasAboutMenu => false;
 
         public void ShowAbout()
         {
-            var version = Assembly.GetEntryAssembly().GetName().Version.ToString();
-
-            MessageBox.Show(version);
         }
 
         public string WindowSettings

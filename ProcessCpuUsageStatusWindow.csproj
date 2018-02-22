@@ -103,22 +103,22 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Xceed.Wpf.AvalonDock, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <HintPath>packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <HintPath>packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <HintPath>packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <HintPath>packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.DataGrid, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.DataGrid.dll</HintPath>
+      <HintPath>packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.Toolkit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.Toolkit.dll</HintPath>
+      <HintPath>packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +130,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Options\AboutOptionsPanel.xaml.cs">
+      <DependentUpon>AboutOptionsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Options\GeneralOptionsPanel.xaml.cs">
+      <DependentUpon>GeneralOptionsPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowSource.cs" />
+    <Page Include="Options\AboutOptionsPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Options\GeneralOptionsPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProcessCpuUsage.cs" />
@@ -149,8 +163,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="appveyor.yml" />
     <None Include="LICENSE.md" />
