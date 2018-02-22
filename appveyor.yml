@@ -18,7 +18,7 @@ after_build:
 
     $squirrel = ".\packages\squirrel.windows.*\tools\Squirrel.exe"
 
-    .$squirrel -releasify ".\bin\$env:CONFIGURATION\ProcessCpuUsageStatusWindow.$version.nupkg"
+    .$squirrel -releasify ".\bin\$env:CONFIGURATION\ProcessCpuUsageStatusWindow.$env:APPVEYOR_BUILD_VERSION.nupkg"
 artifacts:
 - path: bin\$(configuration)\ProcessCpuUsageStatusWindow.*.nupkg
   name: Package
