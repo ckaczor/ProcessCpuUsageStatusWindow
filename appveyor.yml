@@ -22,8 +22,8 @@ after_build:
 artifacts:
 - path: bin\$(configuration)\ProcessCpuUsageStatusWindow.*.nupkg
   name: Package
-- path: Release\**\*
-  name: Release
+- path: .\Releases\**\*
+  name: Releases
 deploy:
 - provider: Environment
   name: GitHub
