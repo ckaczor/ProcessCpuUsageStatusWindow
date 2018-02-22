@@ -45,7 +45,7 @@ namespace ProcessCpuUsageStatusWindow
                     _dispatcher.Invoke(() => _floatingStatusWindow.SetText(Resources.Updating));
                     Thread.Sleep(1000);
 
-#if !DEBUGr
+#if !DEBUG
                     await updateManager.DownloadReleases(new[] { lastVersion });
                     await updateManager.ApplyReleases(updates);
                     await updateManager.UpdateApp();
@@ -54,7 +54,7 @@ namespace ProcessCpuUsageStatusWindow
 #endif
                 }
 
-#if !DEBUGr
+#if !DEBUG
                 UpdateManager.RestartApp();
 #endif
             }

@@ -27,6 +27,8 @@ namespace ProcessCpuUsageStatusWindow
         {
             base.OnStartup(e);
 
+            Settings.Default.Upgrade();
+
             StartManager.ManageAutoStart = true;
             StartManager.AutoStartEnabled = !Debugger.IsAttached && Settings.Default.AutoStart;
             StartManager.AutoStartChanged += (value =>
