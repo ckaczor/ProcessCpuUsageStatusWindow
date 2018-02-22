@@ -29,4 +29,4 @@ deploy:
 install:
 - cmd: git submodule update --init --recursive
 before_build:
-- cmd: msbuild /t:restore
+- cmd: nuget restore
