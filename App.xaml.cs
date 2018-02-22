@@ -18,6 +18,13 @@ namespace ProcessCpuUsageStatusWindow
         {
             SquirrelAwareApp.HandleEvents();
 
+            if (Settings.Default.FirstRun)
+            {
+                Settings.Default.Upgrade();
+                Settings.Default.FirstRun = false;
+                Settings.Default.Save();
+            }
+
             var application = new App();
             application.InitializeComponent();
             application.Run();
@@ -27,15 +34,13 @@ namespace ProcessCpuUsageStatusWindow
         {
             base.OnStartup(e);
 
-            Settings.Default.Upgrade();
-
             StartManager.ManageAutoStart = true;
             StartManager.AutoStartEnabled = !Debugger.IsAttached && Settings.Default.AutoStart;
-            StartManager.AutoStartChanged += (value =>
+            StartManager.AutoStartChanged += value =>
             {
                 Settings.Default.AutoStart = value;
                 Settings.Default.Save();
-            });
+            };
 
             _windowSource = new WindowSource();
         }

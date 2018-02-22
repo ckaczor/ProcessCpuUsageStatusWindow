@@ -2,6 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>ProcessCpuUsageStatusWindow</id>
+    <title>CPU Usage Status Window</title>
     <version>$version$</version>
     <authors>Chris Kaczor</authors>
     <description>A "floating" status window that shows the top X processes by CPU usage.</description>

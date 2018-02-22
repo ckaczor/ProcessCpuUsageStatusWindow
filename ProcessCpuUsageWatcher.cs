@@ -76,8 +76,11 @@ namespace ProcessCpuUsageStatusWindow
         public void Terminate()
         {
             // Get rid of the timer
-            _processUpdateTimer.Stop();
-            _processUpdateTimer.Dispose();
+            if (_processUpdateTimer != null)
+            {
+                _processUpdateTimer.Stop();
+                _processUpdateTimer.Dispose();
+            }
 
             // Clear the callback
             _processListUpdatedCallback = null;
