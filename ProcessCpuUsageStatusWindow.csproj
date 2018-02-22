@@ -33,12 +33,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common.Native, Version=1.0.6626.19202, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\Common.Native.dll</HintPath>
+    <Reference Include="Common.Native, Version=1.0.6627.16339, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Common.Native.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Wpf, Version=1.0.6626.19204, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\Common.Wpf.dll</HintPath>
+    <Reference Include="Common.Wpf, Version=1.0.6627.16340, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Common.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="DeltaCompressionDotNet, Version=1.1.0.0, Culture=neutral, PublicKeyToken=1d14d6e5194e7f4a, processorArchitecture=MSIL">
       <HintPath>packages\DeltaCompressionDotNet.1.1.0\lib\net20\DeltaCompressionDotNet.dll</HintPath>
@@ -49,14 +53,14 @@
     <Reference Include="DeltaCompressionDotNet.PatchApi, Version=1.1.0.0, Culture=neutral, PublicKeyToken=3e8888ee913ed789, processorArchitecture=MSIL">
       <HintPath>packages\DeltaCompressionDotNet.1.1.0\lib\net20\DeltaCompressionDotNet.PatchApi.dll</HintPath>
     </Reference>
-    <Reference Include="FloatingStatusWindowLibrary, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\FloatingStatusWindowLibrary.dll</HintPath>
+    <Reference Include="FloatingStatusWindowLibrary, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\FloatingStatusWindowLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
@@ -86,7 +90,7 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -98,29 +102,29 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Xceed.Wpf.AvalonDock, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.DataGrid, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\Xceed.Wpf.DataGrid.dll</HintPath>
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.DataGrid.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.Toolkit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>packages\FloatingStatusWindow.1.0.0.8\lib\net45\Xceed.Wpf.Toolkit.dll</HintPath>
+      <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

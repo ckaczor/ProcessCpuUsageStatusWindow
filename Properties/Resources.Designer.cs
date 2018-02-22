@@ -114,5 +114,14 @@ namespace ProcessCpuUsageStatusWindow.Properties {
                 return ResourceManager.GetString("ProcessLine", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating application....
+        /// </summary>
+        internal static string Updating {
+            get {
+                return ResourceManager.GetString("Updating", resourceCulture);
+            }
+        }
     }
 }

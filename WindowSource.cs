@@ -1,12 +1,15 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Threading;
-using FloatingStatusWindowLibrary;
+﻿using FloatingStatusWindowLibrary;
 using ProcessCpuUsageStatusWindow.Properties;
+using Squirrel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
-using Squirrel;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace ProcessCpuUsageStatusWindow
 {
@@ -14,6 +17,7 @@ namespace ProcessCpuUsageStatusWindow
     {
         private readonly FloatingStatusWindow _floatingStatusWindow;
         private readonly ProcessCpuUsageWatcher _processCpuUsageWatcher;
+        private readonly Dispatcher _dispatcher = Dispatcher.CurrentDispatcher;
 
         internal WindowSource()
         {
@@ -22,19 +26,47 @@ namespace ProcessCpuUsageStatusWindow
 
             _processCpuUsageWatcher = new ProcessCpuUsageWatcher();
 
-            var dispatcher = Dispatcher.CurrentDispatcher;
-            Task.Factory.StartNew(() => _processCpuUsageWatcher.Initialize(Settings.Default.UpdateInterval, UpdateDisplay, dispatcher));
-
-            //CheckUpdate();
+            Task.Factory.StartNew(UpdateApp);
         }
 
-        //private static async void CheckUpdate()
-        //{
-        //    using (var updateManager = UpdateManager.GitHubUpdateManager("https://github.com/ckaczor/ProcessCpuUsageStatusWindow"))
-        //    {
-        //        await updateManager.Result.UpdateApp();
-        //    }
-        //}
+        private async Task UpdateApp()
+        {
+            try
+            {
+                using (var updateManager = await UpdateManager.GitHubUpdateManager(App.UpdateUrl))
+                {
+                    var updates = await updateManager.CheckForUpdate();
+
+                    var lastVersion = updates?.ReleasesToApply?.OrderBy(releaseEntry => releaseEntry.Version).LastOrDefault();
+
+                    if (lastVersion == null)
+                        return;
+
+                    _dispatcher.Invoke(() => _floatingStatusWindow.SetText(Resources.Updating));
+                    Thread.Sleep(1000);
+
+#if !DEBUGr
+                    await updateManager.DownloadReleases(new[] { lastVersion });
+                    await updateManager.ApplyReleases(updates);
+                    await updateManager.UpdateApp();
+
+                    Thread.Sleep(1000);
+#endif
+                }
+
+#if !DEBUGr
+                UpdateManager.RestartApp();
+#endif
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                await Task.Factory.StartNew(() => _processCpuUsageWatcher.Initialize(Settings.Default.UpdateInterval, UpdateDisplay, _dispatcher));
+            }
+        }
 
         public void Dispose()
         {
@@ -58,6 +90,14 @@ namespace ProcessCpuUsageStatusWindow
 
         public bool HasSettingsMenu => false;
         public bool HasRefreshMenu => false;
+        public bool HasAboutMenu => true;
+
+        public void ShowAbout()
+        {
+            var version = Assembly.GetEntryAssembly().GetName().Version.ToString();
+
+            MessageBox.Show(version);
+        }
 
         public string WindowSettings
         {
@@ -78,7 +118,7 @@ namespace ProcessCpuUsageStatusWindow
         }
 
         private void UpdateDisplay(Dictionary<string, ProcessCpuUsage> currentProcessList)
-        {
+        {       
             // Filter the process list to valid ones and exclude the idle and total values
             var validProcessList = (currentProcessList.Values.Where(
                 process =>
