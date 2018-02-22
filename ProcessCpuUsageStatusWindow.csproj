@@ -88,6 +88,7 @@
       <HintPath>packages\squirrel.windows.1.7.9\lib\Net45\Squirrel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\FloatingStatusWindow.1.0.0.9\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -129,6 +130,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SettingsExtensions.cs" />
     <Compile Include="WindowSource.cs" />
   </ItemGroup>
   <ItemGroup>

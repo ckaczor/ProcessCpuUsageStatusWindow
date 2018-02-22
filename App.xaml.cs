@@ -16,14 +16,7 @@ namespace ProcessCpuUsageStatusWindow
         [STAThread]
         public static void Main(string[] args)
         {
-            if (Settings.Default.FirstRun)
-            {
-                Settings.Default.Upgrade();
-                Settings.Default.FirstRun = false;
-                Settings.Default.Save();
-            }
-
-            SquirrelAwareApp.HandleEvents();
+            SquirrelAwareApp.HandleEvents(onAppUpdate: version => SettingsExtensions.RestoreSettings());
 
             var application = new App();
             application.InitializeComponent();

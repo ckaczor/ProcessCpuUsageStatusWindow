@@ -43,14 +43,14 @@ namespace ProcessCpuUsageStatusWindow
                         return;
 
                     _dispatcher.Invoke(() => _floatingStatusWindow.SetText(Resources.Updating));
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
+
+                    SettingsExtensions.BackupSettings();
 
 #if !DEBUG
                     await updateManager.DownloadReleases(new[] { lastVersion });
                     await updateManager.ApplyReleases(updates);
                     await updateManager.UpdateApp();
-
-                    Thread.Sleep(1000);
 #endif
                 }
 
