@@ -20,9 +20,7 @@ after_build:
 
     .$squirrel -releasify ".\bin\$env:CONFIGURATION\ProcessCpuUsageStatusWindow.$env:APPVEYOR_BUILD_VERSION.nupkg"
 artifacts:
-- path: bin\$(configuration)\ProcessCpuUsageStatusWindow.*.nupkg
-  name: Package
-- path: .\Releases\**\*
+- path: Releases\*
   name: Releases
 deploy:
 - provider: Environment
