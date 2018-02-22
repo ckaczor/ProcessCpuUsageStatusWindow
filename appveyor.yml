@@ -17,6 +17,7 @@ after_build:
     nuget pack ProcessCpuUsageStatusWindow.nuspec -Version $env:APPVEYOR_BUILD_VERSION -Properties Configuration=Release -OutputDirectory bin\Release\
 
     $squirrel = ".\packages\squirrel.windows.*\tools\Squirrel.exe"
+
     .$squirrel -releasify ".\bin\$env:CONFIGURATION\ProcessCpuUsageStatusWindow.$version.nupkg"
 artifacts:
 - path: bin\$(configuration)\ProcessCpuUsageStatusWindow.*.nupkg
