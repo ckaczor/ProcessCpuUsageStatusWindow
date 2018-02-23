@@ -29,10 +29,18 @@ namespace ProcessCpuUsageStatusWindow
 
             _processCpuUsageWatcher = new ProcessCpuUsageWatcher();
 
-            Task.Factory.StartNew(UpdateApp);
+            Task.Factory.StartNew(UpdateApp).ContinueWith(task => StartUpdate(task.Result.Result));
         }
 
-        private async Task UpdateApp()
+        private void StartUpdate(bool updateRequired)
+        {
+            if (updateRequired)
+                return;
+
+            Task.Factory.StartNew(() => _processCpuUsageWatcher.Initialize(Settings.Default.UpdateInterval, UpdateDisplay, _dispatcher));
+        }
+
+        private async Task<bool> UpdateApp()
         {
             try
             {
@@ -45,7 +53,7 @@ namespace ProcessCpuUsageStatusWindow
                     var lastVersion = updates?.ReleasesToApply?.OrderBy(releaseEntry => releaseEntry.Version).LastOrDefault();
 
                     if (lastVersion == null)
-                        return;
+                        return false;
 
                     _dispatcher.Invoke(() => _floatingStatusWindow.SetText(Resources.Updating));
                     Thread.Sleep(500);
@@ -60,16 +68,18 @@ namespace ProcessCpuUsageStatusWindow
                 }
 
 #if !DEBUG
+                _dispatcher.Invoke(Dispose);
+
                 UpdateManager.RestartApp();
 #endif
+
+                return true;
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
-            }
-            finally
-            {
-                await Task.Factory.StartNew(() => _processCpuUsageWatcher.Initialize(Settings.Default.UpdateInterval, UpdateDisplay, _dispatcher));
+
+                return false;
             }
         }
 
@@ -141,7 +151,7 @@ namespace ProcessCpuUsageStatusWindow
         }
 
         private void UpdateDisplay(Dictionary<string, ProcessCpuUsage> currentProcessList)
-        {       
+        {
             // Filter the process list to valid ones and exclude the idle and total values
             var validProcessList = (currentProcessList.Values.Where(
                 process =>
