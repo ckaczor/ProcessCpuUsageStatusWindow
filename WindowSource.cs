@@ -42,45 +42,15 @@ namespace ProcessCpuUsageStatusWindow
 
         private async Task<bool> UpdateApp()
         {
-            try
-            {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            return await UpdateCheck.CheckUpdate(HandleUpdateStatus);
+        }
 
-                using (var updateManager = await UpdateManager.GitHubUpdateManager(App.UpdateUrl))
-                {
-                    var updates = await updateManager.CheckForUpdate();
+        private void HandleUpdateStatus(UpdateCheck.UpdateStatus status, string message)
+        {
+            if (status == UpdateCheck.UpdateStatus.None)
+                message = Resources.Loading;
 
-                    var lastVersion = updates?.ReleasesToApply?.OrderBy(releaseEntry => releaseEntry.Version).LastOrDefault();
-
-                    if (lastVersion == null)
-                        return false;
-
-                    _dispatcher.Invoke(() => _floatingStatusWindow.SetText(Resources.Updating));
-                    Thread.Sleep(500);
-
-                    Common.Settings.Extensions.BackupSettings();
-
-#if !DEBUG
-                    await updateManager.DownloadReleases(new[] { lastVersion });
-                    await updateManager.ApplyReleases(updates);
-                    await updateManager.UpdateApp();
-#endif
-                }
-
-#if !DEBUG
-                _dispatcher.Invoke(Dispose);
-
-                UpdateManager.RestartApp();
-#endif
-
-                return true;
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-
-                return false;
-            }
+            _dispatcher.Invoke(() => _floatingStatusWindow.SetText(message));
         }
 
         public void Dispose()

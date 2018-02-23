@@ -136,6 +136,7 @@
     <Compile Include="Options\GeneralOptionsPanel.xaml.cs">
       <DependentUpon>GeneralOptionsPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UpdateCheck.cs" />
     <Compile Include="WindowSource.cs" />
     <Page Include="Options\AboutOptionsPanel.xaml">
       <Generator>MSBuild:Compile</Generator>

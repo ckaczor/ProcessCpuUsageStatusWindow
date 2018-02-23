@@ -4,21 +4,43 @@
                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        xmlns:windows="clr-namespace:Common.Wpf.Windows;assembly=Common.Wpf"
+                       xmlns:properties="clr-namespace:ProcessCpuUsageStatusWindow.Properties"
                        mc:Ignorable="d"
                        d:DesignHeight="300"
                        d:DesignWidth="300">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
         <TextBlock Text="[Application Name]"
                    Name="ApplicationNameLabel"
                    VerticalAlignment="Top"
-                   FontWeight="Bold" />
+                   FontWeight="Bold"
+                   Grid.Row="0" />
         <TextBlock Text="[Application Version]"
-                   Margin="0,22,0,0"
+                   Margin="0,6,0,0"
                    Name="VersionLabel"
-                   VerticalAlignment="Top" />
+                   VerticalAlignment="Top" 
+                   Grid.Row="1" />
         <TextBlock Text="[Company]"
-                   Margin="0,44,0,0"
+                   Margin="0,6,0,0"
                    Name="CompanyLabel"
-                   VerticalAlignment="Top" />
+                   VerticalAlignment="Top" 
+                   Grid.Row="2" />
+        <StackPanel Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="0,20,0,0"
+                    Orientation="Horizontal">
+            <Button Content="{x:Static properties:Resources.CheckUpdate}"
+                HorizontalAlignment="Left"                
+                Padding="6,2"               
+                Click="HandleCheckForUpdateButtonClick"
+                VerticalContentAlignment="Center" />
+            <Label Name="UpdateMessage" Content="" VerticalContentAlignment="Center" Padding="6,0" />
+        </StackPanel>
     </Grid>
 </windows:CategoryPanel>

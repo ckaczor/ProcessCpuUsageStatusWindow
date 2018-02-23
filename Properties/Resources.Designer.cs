@@ -89,6 +89,33 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checking for update....
+        /// </summary>
+        public static string CheckingForUpdate {
+            get {
+                return ResourceManager.GetString("CheckingForUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Check for Update.
+        /// </summary>
+        public static string CheckUpdate {
+            get {
+                return ResourceManager.GetString("CheckUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading update....
+        /// </summary>
+        public static string DownloadingUpdate {
+            get {
+                return ResourceManager.GetString("DownloadingUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CPU: {0,4:f1}% - Total.
         /// </summary>
         public static string FooterLine {
@@ -107,11 +134,29 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installing update....
+        /// </summary>
+        public static string InstallingUpdate {
+            get {
+                return ResourceManager.GetString("InstallingUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         public static string Loading {
             get {
                 return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No update found.
+        /// </summary>
+        public static string NoUpdate {
+            get {
+                return ResourceManager.GetString("NoUpdate", resourceCulture);
             }
         }
         
@@ -185,6 +230,15 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         public static string ProcessLine {
             get {
                 return ResourceManager.GetString("ProcessLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restarting application....
+        /// </summary>
+        public static string RestartingAfterUpdate {
+            get {
+                return ResourceManager.GetString("RestartingAfterUpdate", resourceCulture);
             }
         }
         
