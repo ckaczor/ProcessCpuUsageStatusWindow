@@ -17,26 +17,41 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <CheckBox Content="{x:Static properties:Resources.StartWithWindows}"
                   Name="StartWithWindows"
                   VerticalAlignment="Top"
                   VerticalContentAlignment="Center"
+                  Grid.Column="0"
+                  Grid.Row="0"
                   Grid.ColumnSpan="2" />
-        <Label Grid.Column="0" 
+        <Label Grid.Column="0"
                Grid.Row="1"
                Content="{x:Static properties:Resources.NumberOfProcesses}"
-               Margin="0,4,6,0"
-               Padding="0"               
-               VerticalContentAlignment="Center" VerticalAlignment="Center" Target="{x:Reference NumberOfProcesses}" />
+               Margin="0,4,6,4"
+               Padding="0"
+               VerticalContentAlignment="Center"
+               VerticalAlignment="Center"
+               Target="{x:Reference NumberOfProcesses}" />
         <xctk:IntegerUpDown Grid.Column="1"
-                            Grid.Row="1" x:Name="NumberOfProcesses"
-                            Minimum="1" Maximum="20"
-                            TextAlignment="Left" Margin="0,12,6,6"
+                            Grid.Row="1"
+                            x:Name="NumberOfProcesses"
+                            Minimum="1"
+                            Maximum="20"
+                            TextAlignment="Left"
+                            Margin="0,12,6,12"
                             Width="50"
                             VerticalContentAlignment="Center"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left" />
+        <CheckBox Content="{x:Static properties:Resources.ShowProcessId}"
+                  Name="ShowProcessId"
+                  VerticalAlignment="Top"
+                  VerticalContentAlignment="Center"
+                  Grid.Column="0"
+                  Grid.Row="2"
+                  Grid.ColumnSpan="2" />
     </Grid>
 </windows:CategoryPanel>

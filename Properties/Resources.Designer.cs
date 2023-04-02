@@ -225,11 +225,20 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CPU: {1,4:f1}% - {0} ({2}).
+        ///   Looks up a localized string similar to CPU: {1,4:f1}% - {0}.
         /// </summary>
         public static string ProcessLine {
             get {
                 return ResourceManager.GetString("ProcessLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CPU: {1,4:f1}% - {0} ({2}).
+        /// </summary>
+        public static string ProcessLineWithProcessId {
+            get {
+                return ResourceManager.GetString("ProcessLineWithProcessId", resourceCulture);
             }
         }
         
@@ -239,6 +248,15 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         public static string RestartingAfterUpdate {
             get {
                 return ResourceManager.GetString("RestartingAfterUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show _process ID.
+        /// </summary>
+        public static string ShowProcessId {
+            get {
+                return ResourceManager.GetString("ShowProcessId", resourceCulture);
             }
         }
         

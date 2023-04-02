@@ -18,6 +18,7 @@ namespace ProcessCpuUsageStatusWindow.Options
 
             StartWithWindows.IsChecked = settings.AutoStart;
             NumberOfProcesses.Text = settings.ProcessCount.ToString();
+            ShowProcessId.IsChecked = settings.ShowProcessId;
         }
 
         public override bool ValidatePanel()
@@ -33,6 +34,9 @@ namespace ProcessCpuUsageStatusWindow.Options
                 settings.AutoStart = StartWithWindows.IsChecked.Value;
 
             settings.ProcessCount = int.Parse(NumberOfProcesses.Text);
+
+            if (ShowProcessId.IsChecked.HasValue && settings.ShowProcessId != ShowProcessId.IsChecked.Value)
+                settings.ShowProcessId = ShowProcessId.IsChecked.Value;
 
             Application.Current.SetStartWithWindows(settings.AutoStart);
         }

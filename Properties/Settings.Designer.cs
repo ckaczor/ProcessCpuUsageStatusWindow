@@ -82,5 +82,17 @@ namespace ProcessCpuUsageStatusWindow.Properties {
                 this["FirstRun"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowProcessId {
+            get {
+                return ((bool)(this["ShowProcessId"]));
+            }
+            set {
+                this["ShowProcessId"] = value;
+            }
+        }
     }
 }

@@ -155,7 +155,7 @@ namespace ProcessCpuUsageStatusWindow
                 var processId = colonPosition == -1 ? string.Empty : processCpuUsage.ProcessName.Substring(colonPosition + 1);
 
                 // Format the process information into a string to display
-                stringBuilder.AppendFormat(Resources.ProcessLine, processName, processCpuUsage.PercentUsage, processId);
+                stringBuilder.AppendFormat(Settings.Default.ShowProcessId ? Resources.ProcessLineWithProcessId : Resources.ProcessLine, processName, processCpuUsage.PercentUsage, processId);
             }
 
             // Add the footer line (if any)
