@@ -2,13 +2,10 @@
 using FloatingStatusWindowLibrary;
 using ProcessCpuUsageStatusWindow.Options;
 using ProcessCpuUsageStatusWindow.Properties;
-using Squirrel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -117,7 +114,7 @@ namespace ProcessCpuUsageStatusWindow
         private static class PredefinedProcessName
         {
             public const string Total = "_Total";
-            public const string Idle = "Idle";
+            public const string Idle = "Idle:0";
         }
 
         private void UpdateDisplay(Dictionary<string, ProcessCpuUsage> currentProcessList)
@@ -125,14 +122,14 @@ namespace ProcessCpuUsageStatusWindow
             // Filter the process list to valid ones and exclude the idle and total values
             var validProcessList = (currentProcessList.Values.Where(
                 process =>
-                process.UsageValid && process.ProcessName != PredefinedProcessName.Total &&
-                process.ProcessName != PredefinedProcessName.Idle)).ToList();
+                    process.UsageValid && process.ProcessName != PredefinedProcessName.Total &&
+                    process.ProcessName != PredefinedProcessName.Idle)).ToList();
 
             // Calculate the total usage by adding up all the processes we know about
             var totalUsage = validProcessList.Sum(process => process.PercentUsage);
 
             // Sort the process list by usage and take only the top few
-            var sortedProcessList = (validProcessList.OrderByDescending(process => process.PercentUsage)).Take(Settings.Default.ProcessCount);
+            var sortedProcessList = validProcessList.OrderByDescending(process => process.PercentUsage).Take(Settings.Default.ProcessCount);
 
             // Create a new string builder
             var stringBuilder = new StringBuilder();
@@ -146,14 +143,19 @@ namespace ProcessCpuUsageStatusWindow
             }
 
             // Loop over all processes in the sorted list
-            foreach (ProcessCpuUsage processCpuUsage in sortedProcessList)
+            foreach (var processCpuUsage in sortedProcessList)
             {
                 // Move to the next line if it isn't the first line
                 if (stringBuilder.Length != 0)
                     stringBuilder.AppendLine();
 
+                var colonPosition = processCpuUsage.ProcessName.LastIndexOf(':');
+
+                var processName = colonPosition == -1 ? processCpuUsage.ProcessName : processCpuUsage.ProcessName.Substring(0, colonPosition);
+                var processId = colonPosition == -1 ? string.Empty : processCpuUsage.ProcessName.Substring(colonPosition + 1);
+
                 // Format the process information into a string to display
-                stringBuilder.AppendFormat(Resources.ProcessLine, processCpuUsage.ProcessName, processCpuUsage.PercentUsage);
+                stringBuilder.AppendFormat(Resources.ProcessLine, processName, processCpuUsage.PercentUsage, processId);
             }
 
             // Add the footer line (if any)

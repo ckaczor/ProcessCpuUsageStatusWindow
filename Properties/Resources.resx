@@ -173,7 +173,7 @@
     <value>Options</value>
   </data>
   <data name="ProcessLine" xml:space="preserve">
-    <value>CPU: {1,4:f1}% - {0}</value>
+    <value>CPU: {1,4:f1}% - {0} ({2})</value>
   </data>
   <data name="StartWithWindows" xml:space="preserve">
     <value>_Start when Windows starts</value>

@@ -40,18 +40,18 @@ namespace ProcessCpuUsageStatusWindow
             CurrentProcessList = new Dictionary<string, ProcessCpuUsage>();
 
             // Get the category for process performance info
-            _processCategory = PerformanceCounterCategory.GetCategories().FirstOrDefault(category => category.CategoryName == "Process");
+            _processCategory = PerformanceCounterCategory.GetCategories().FirstOrDefault(category => category.CategoryName == "Process V2");
 
             if (_processCategory == null)
                 return;
 
             // Read the entire category
-            InstanceDataCollectionCollection processCategoryData = _processCategory.ReadCategory();
+            var processCategoryData = _processCategory.ReadCategory();
 
             // Get the processor time data
-            InstanceDataCollection processorTimeData = processCategoryData["% processor time"];
+            var processorTimeData = processCategoryData["% processor time"];
 
-            if (processorTimeData == null || processorTimeData.Values == null)
+            if (processorTimeData?.Values == null)
                 return;
 
             // Loop over each instance and add it to the list
@@ -109,15 +109,15 @@ namespace ProcessCpuUsageStatusWindow
         private void UpdateCurrentProcessList()
         {
             // Get a timestamp for the current time that we can use to see if a process was found this check
-            DateTime checkStart = DateTime.Now;
+            var checkStart = DateTime.Now;
 
             // Read the entire category
-            InstanceDataCollectionCollection processCategoryData = _processCategory.ReadCategory();
+            var processCategoryData = _processCategory.ReadCategory();
 
             // Get the processor time data
-            InstanceDataCollection processorTimeData = processCategoryData["% processor time"];
+            var processorTimeData = processCategoryData["% processor time"];
 
-            if (processorTimeData == null || processorTimeData.Values == null)
+            if (processorTimeData?.Values == null)
                 return;
 
             // Loop over each instance and add it to the list
@@ -127,7 +127,7 @@ namespace ProcessCpuUsageStatusWindow
                 if (CurrentProcessList.ContainsKey(instanceData.InstanceName))
                 {
                     // Get the previous process usage object
-                    ProcessCpuUsage processCpuUsage = CurrentProcessList[instanceData.InstanceName];
+                    var processCpuUsage = CurrentProcessList[instanceData.InstanceName];
 
                     // Update the CPU usage with new data
                     processCpuUsage.UpdateCpuUsage(instanceData, checkStart);
@@ -144,8 +144,8 @@ namespace ProcessCpuUsageStatusWindow
 
             // Build a list of cached processes we haven't found this check
             var oldProcessList = (from processCpuUsage in CurrentProcessList
-                                  where processCpuUsage.Value.LastFound != checkStart
-                                  select processCpuUsage.Key).ToList();
+                where processCpuUsage.Value.LastFound != checkStart
+                select processCpuUsage.Key).ToList();
 
             // Loop over the list and remove the old process
             foreach (var key in oldProcessList)
