@@ -28,6 +28,8 @@ namespace ProcessCpuUsageStatusWindow
 
         public Dictionary<string, ProcessCpuUsage> CurrentProcessList;
 
+        public bool IsV2 => _processCategory.CategoryName == "Process V2";
+
         #endregion
 
         #region Initialize and terminate
@@ -40,7 +42,8 @@ namespace ProcessCpuUsageStatusWindow
             CurrentProcessList = new Dictionary<string, ProcessCpuUsage>();
 
             // Get the category for process performance info
-            _processCategory = PerformanceCounterCategory.GetCategories().FirstOrDefault(category => category.CategoryName == "Process V2");
+            _processCategory = PerformanceCounterCategory.GetCategories().FirstOrDefault(category => category.CategoryName == "Process V2") ?? 
+                               PerformanceCounterCategory.GetCategories().FirstOrDefault(category => category.CategoryName == "Process");
 
             if (_processCategory == null)
                 return;

@@ -62,7 +62,7 @@ namespace ProcessCpuUsageStatusWindow
         {
             var panels = new List<CategoryPanel>
             {
-                new GeneralOptionsPanel(),
+                new GeneralOptionsPanel(_processCpuUsageWatcher.IsV2),
                 new AboutOptionsPanel()
             };
 
@@ -114,7 +114,8 @@ namespace ProcessCpuUsageStatusWindow
         private static class PredefinedProcessName
         {
             public const string Total = "_Total";
-            public const string Idle = "Idle:0";
+            public const string Idle = "Idle";
+            public const string IdleWithProcessId = "Idle:0";
         }
 
         private void UpdateDisplay(Dictionary<string, ProcessCpuUsage> currentProcessList)
@@ -123,7 +124,7 @@ namespace ProcessCpuUsageStatusWindow
             var validProcessList = (currentProcessList.Values.Where(
                 process =>
                     process.UsageValid && process.ProcessName != PredefinedProcessName.Total &&
-                    process.ProcessName != PredefinedProcessName.Idle)).ToList();
+                    process.ProcessName != (_processCpuUsageWatcher.IsV2 ? PredefinedProcessName.IdleWithProcessId : PredefinedProcessName.Idle))).ToList();
 
             // Calculate the total usage by adding up all the processes we know about
             var totalUsage = validProcessList.Sum(process => process.PercentUsage);
@@ -149,13 +150,24 @@ namespace ProcessCpuUsageStatusWindow
                 if (stringBuilder.Length != 0)
                     stringBuilder.AppendLine();
 
-                var colonPosition = processCpuUsage.ProcessName.LastIndexOf(':');
+                if (_processCpuUsageWatcher.IsV2)
+                {
+                    // Split the process name from the process ID
+                    var colonPosition = processCpuUsage.ProcessName.LastIndexOf(':');
 
-                var processName = colonPosition == -1 ? processCpuUsage.ProcessName : processCpuUsage.ProcessName.Substring(0, colonPosition);
-                var processId = colonPosition == -1 ? string.Empty : processCpuUsage.ProcessName.Substring(colonPosition + 1);
+                    var processName = processCpuUsage.ProcessName.Substring(0, colonPosition);
+                    var processId = processCpuUsage.ProcessName.Substring(colonPosition + 1);
 
-                // Format the process information into a string to display
-                stringBuilder.AppendFormat(Settings.Default.ShowProcessId ? Resources.ProcessLineWithProcessId : Resources.ProcessLine, processName, processCpuUsage.PercentUsage, processId);
+                    var formatString = Settings.Default.ShowProcessId ? Resources.ProcessLineWithProcessId : Resources.ProcessLine;
+
+                    // Format the process information into a string to display
+                    stringBuilder.AppendFormat(formatString, processName, processCpuUsage.PercentUsage, processId);
+                }
+                else
+                {
+                    // Format the process information into a string to display
+                    stringBuilder.AppendFormat(Resources.ProcessLine, processCpuUsage.ProcessName, processCpuUsage.PercentUsage);
+                }
             }
 
             // Add the footer line (if any)
