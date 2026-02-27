@@ -1,48 +1,38 @@
-﻿using FloatingStatusWindowLibrary;
-using ProcessCpuUsageStatusWindow.Properties;
-using Squirrel;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
+using ChrisKaczor.Wpf.Windows.FloatingStatusWindow;
+using ProcessCpuUsageStatusWindow.Properties;
 
-namespace ProcessCpuUsageStatusWindow
+namespace ProcessCpuUsageStatusWindow;
+
+public partial class App
 {
-    public partial class App
+    private List<IDisposable> _windowSourceList;
+
+    protected override void OnStartup(StartupEventArgs e)
     {
-        private WindowSource _windowSource;
+        base.OnStartup(e);
 
-        public static string UpdateUrl = "https://github.com/ckaczor/ProcessCpuUsageStatusWindow";
-
-        [STAThread]
-        public static void Main(string[] args)
+        StartManager.ManageAutoStart = true;
+        StartManager.AutoStartEnabled = !Debugger.IsAttached && Settings.Default.AutoStart;
+        StartManager.AutoStartChanged += (value =>
         {
-            SquirrelAwareApp.HandleEvents(onAppUpdate: version => Common.Settings.Extensions.RestoreSettings());
+            Settings.Default.AutoStart = value;
+            Settings.Default.Save();
+        });
 
-            var application = new App();
-            application.InitializeComponent();
-            application.Run();
-        }
+        _windowSourceList =
+        [
+            new WindowSource()
+        ];
+    }
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
+    protected override void OnExit(ExitEventArgs e)
+    {
+        _windowSourceList.ForEach(ws => ws.Dispose());
 
-            StartManager.ManageAutoStart = true;
-            StartManager.AutoStartEnabled = !Debugger.IsAttached && Settings.Default.AutoStart;
-            StartManager.AutoStartChanged += value =>
-            {
-                Settings.Default.AutoStart = value;
-                Settings.Default.Save();
-            };
-
-            _windowSource = new WindowSource();
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            _windowSource.Dispose();
-
-            base.OnExit(e);
-        }
+        base.OnExit(e);
     }
 }

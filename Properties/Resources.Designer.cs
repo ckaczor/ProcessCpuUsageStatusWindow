@@ -19,7 +19,7 @@ namespace ProcessCpuUsageStatusWindow.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -61,11 +61,20 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Version: {0}.
+        ///   Looks up a localized string similar to Add.
         /// </summary>
-        public static string About_Version {
+        public static string AddItemLink {
             get {
-                return ResourceManager.GetString("About_Version", resourceCulture);
+                return ResourceManager.GetString("AddItemLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Item.
+        /// </summary>
+        public static string AddItemToolTip {
+            get {
+                return ResourceManager.GetString("AddItemToolTip", resourceCulture);
             }
         }
         
@@ -80,11 +89,20 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Process CPU Usage.
+        ///   Looks up a localized string similar to Process CPU Usage Status Window.
         /// </summary>
         public static string ApplicationName {
             get {
                 return ResourceManager.GetString("ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string CancelButton {
+            get {
+                return ResourceManager.GetString("CancelButton", resourceCulture);
             }
         }
         
@@ -107,11 +125,92 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check _Now.
+        /// </summary>
+        public static string checkVersionNowButton {
+            get {
+                return ResourceManager.GetString("checkVersionNowButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Check for a new version on startup.
+        /// </summary>
+        public static string checkVersionOnStartupCheckBox {
+            get {
+                return ResourceManager.GetString("checkVersionOnStartupCheckBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string CloseButtonText {
+            get {
+                return ResourceManager.GetString("CloseButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the selected items?.
+        /// </summary>
+        public static string ConfirmDeleteItemss {
+            get {
+                return ResourceManager.GetString("ConfirmDeleteItemss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Delete.
+        /// </summary>
+        public static string ConfirmDeleteTitle {
+            get {
+                return ResourceManager.GetString("ConfirmDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string DeleteItemLink {
+            get {
+                return ResourceManager.GetString("DeleteItemLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Item.
+        /// </summary>
+        public static string DeleteItemToolTip {
+            get {
+                return ResourceManager.GetString("DeleteItemToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Downloading update....
         /// </summary>
         public static string DownloadingUpdate {
             get {
                 return ResourceManager.GetString("DownloadingUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string EditItemLink {
+            get {
+                return ResourceManager.GetString("EditItemLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Item.
+        /// </summary>
+        public static string EditItemToolTip {
+            get {
+                return ResourceManager.GetString("EditItemToolTip", resourceCulture);
             }
         }
         
@@ -125,20 +224,38 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string HeaderLine {
-            get {
-                return ResourceManager.GetString("HeaderLine", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Installing update....
         /// </summary>
         public static string InstallingUpdate {
             get {
                 return ResourceManager.GetString("InstallingUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item.
+        /// </summary>
+        public static string ItemColumnHeader {
+            get {
+                return ResourceManager.GetString("ItemColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Item.
+        /// </summary>
+        public static string ItemWindowAdd {
+            get {
+                return ResourceManager.GetString("ItemWindowAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Item.
+        /// </summary>
+        public static string ItemWindowEdit {
+            get {
+                return ResourceManager.GetString("ItemWindowEdit", resourceCulture);
             }
         }
         
@@ -152,11 +269,11 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No update found.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
-        public static string NoUpdate {
+        public static string NameColumnHeader {
             get {
-                return ResourceManager.GetString("NoUpdate", resourceCulture);
+                return ResourceManager.GetString("NameColumnHeader", resourceCulture);
             }
         }
         
@@ -170,57 +287,47 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string OkayButton {
+            get {
+                return ResourceManager.GetString("OkayButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
-        public static string OptionCategory_About {
+        public static string optionCategoryAbout {
             get {
-                return ResourceManager.GetString("OptionCategory_About", resourceCulture);
+                return ResourceManager.GetString("optionCategoryAbout", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
-        public static string OptionCategory_General {
+        public static string optionCategoryGeneral {
             get {
-                return ResourceManager.GetString("OptionCategory_General", resourceCulture);
+                return ResourceManager.GetString("optionCategoryGeneral", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
+        ///   Looks up a localized string similar to Items.
         /// </summary>
-        public static string OptionsWindow_CancelButton {
+        public static string optionCategoryItems {
             get {
-                return ResourceManager.GetString("OptionsWindow_CancelButton", resourceCulture);
+                return ResourceManager.GetString("optionCategoryItems", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized string similar to Update.
         /// </summary>
-        public static System.Drawing.Icon OptionsWindow_Icon {
+        public static string optionCategoryUpdate {
             get {
-                object obj = ResourceManager.GetObject("OptionsWindow_Icon", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to OK.
-        /// </summary>
-        public static string OptionsWindow_OkayButton {
-            get {
-                return ResourceManager.GetString("OptionsWindow_OkayButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Options.
-        /// </summary>
-        public static string OptionsWindow_Title {
-            get {
-                return ResourceManager.GetString("OptionsWindow_Title", resourceCulture);
+                return ResourceManager.GetString("optionCategoryUpdate", resourceCulture);
             }
         }
         
@@ -243,38 +350,69 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restarting application....
+        ///   Looks up a localized string similar to Settings.
         /// </summary>
-        public static string RestartingAfterUpdate {
+        public static string SettingsTitle {
             get {
-                return ResourceManager.GetString("RestartingAfterUpdate", resourceCulture);
+                return ResourceManager.GetString("SettingsTitle", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Show _process ID.
         /// </summary>
-        public static string ShowProcessId {
+        public static string showProcessId {
             get {
-                return ResourceManager.GetString("ShowProcessId", resourceCulture);
+                return ResourceManager.GetString("showProcessId", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to _Start when Windows starts.
         /// </summary>
-        public static string StartWithWindows {
+        public static string startWithWindowsCheckBox {
             get {
-                return ResourceManager.GetString("StartWithWindows", resourceCulture);
+                return ResourceManager.GetString("startWithWindowsCheckBox", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Updating application....
+        ///   Looks up a localized string similar to You are already running the most recent version.
+        ///
+        ///No updates are available at this time..
         /// </summary>
-        public static string Updating {
+        public static string UpdateCheckCurrent {
             get {
-                return ResourceManager.GetString("Updating", resourceCulture);
+                return ResourceManager.GetString("UpdateCheckCurrent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0} is now available.
+        ///
+        ///Would you like to download and install it now?.
+        /// </summary>
+        public static string UpdateCheckNewVersion {
+            get {
+                return ResourceManager.GetString("UpdateCheckNewVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Update.
+        /// </summary>
+        public static string UpdateCheckTitle {
+            get {
+                return ResourceManager.GetString("UpdateCheckTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
     }

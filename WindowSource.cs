@@ -1,7 +1,8 @@
-﻿using Common.Wpf.Windows;
-using FloatingStatusWindowLibrary;
-using ProcessCpuUsageStatusWindow.Options;
+﻿using ChrisKaczor.Wpf.Windows;
+using ChrisKaczor.Wpf.Windows.FloatingStatusWindow;
 using ProcessCpuUsageStatusWindow.Properties;
+using ProcessCpuUsageStatusWindow.SettingsWindow;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,179 +10,200 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace ProcessCpuUsageStatusWindow
+namespace ProcessCpuUsageStatusWindow;
+
+internal class WindowSource : IWindowSource, IDisposable
 {
-    public class WindowSource : IWindowSource, IDisposable
+    private readonly FloatingStatusWindow _floatingStatusWindow;
+    private readonly Dispatcher _dispatcher;
+    private readonly ProcessCpuUsageWatcher _processCpuUsageWatcher;
+
+    internal WindowSource()
     {
-        private readonly FloatingStatusWindow _floatingStatusWindow;
-        private readonly ProcessCpuUsageWatcher _processCpuUsageWatcher;
-        private readonly Dispatcher _dispatcher = Dispatcher.CurrentDispatcher;
+        _floatingStatusWindow = new FloatingStatusWindow(this);
+        _floatingStatusWindow.SetText(Resources.Loading);
 
-        private CategoryWindow _optionsWindow;
+        _dispatcher = Dispatcher.CurrentDispatcher;
 
-        internal WindowSource()
+        _processCpuUsageWatcher = new ProcessCpuUsageWatcher();
+
+        Task.Factory.StartNew(UpdateApp).ContinueWith(task => Start(task.Result.Result));
+    }
+
+    private async Task<bool> UpdateApp()
+    {
+        try
         {
-            _floatingStatusWindow = new FloatingStatusWindow(this);
-            _floatingStatusWindow.SetText(Resources.Loading);
+            if (!UpdateCheck.IsInstalled)
+                return false;
 
-            _processCpuUsageWatcher = new ProcessCpuUsageWatcher();
+            if (!Settings.Default.CheckVersionAtStartup)
+                return false;
 
-            Task.Factory.StartNew(UpdateApp).ContinueWith(task => StartUpdate(task.Result.Result));
+            Log.Logger.Information("Checking for update");
+
+            await _dispatcher.InvokeAsync(() => _floatingStatusWindow.SetText(Resources.CheckingForUpdate));
+
+            var newVersion = await UpdateCheck.UpdateManager.CheckForUpdatesAsync();
+
+            if (newVersion == null)
+                return false;
+
+            Log.Logger.Information("Downloading update");
+
+            await _dispatcher.InvokeAsync(() => _floatingStatusWindow.SetText(Resources.DownloadingUpdate));
+
+            await UpdateCheck.UpdateManager.DownloadUpdatesAsync(newVersion);
+
+            Log.Logger.Information("Installing update");
+
+            await _dispatcher.InvokeAsync(() => _floatingStatusWindow.SetText(Resources.InstallingUpdate));
+
+            UpdateCheck.UpdateManager.ApplyUpdatesAndRestart(newVersion);
+        }
+        catch (Exception e)
+        {
+            Log.Logger.Error(e, nameof(UpdateApp));
         }
 
-        private void StartUpdate(bool updateRequired)
-        {
-            if (updateRequired)
-                return;
+        return true;
+    }
 
-            Task.Factory.StartNew(() => _processCpuUsageWatcher.Initialize(Settings.Default.UpdateInterval, UpdateDisplay, _dispatcher));
+    private void Start(bool hasUpdate)
+    {
+        Log.Logger.Information("Start: hasUpdate={HasUpdate}", hasUpdate);
+
+        if (hasUpdate)
+            return;
+
+        Log.Logger.Information("Load");
+
+        Load();
+    }
+
+    private void Load()
+    {
+        Task.Factory.StartNew(() => _processCpuUsageWatcher.Initialize(Settings.Default.UpdateInterval, UpdateDisplay, _dispatcher));
+    }
+
+    private static void Save()
+    {
+    }
+
+    public void Dispose()
+    {
+        _processCpuUsageWatcher.Terminate();
+
+        _floatingStatusWindow.Save();
+        _floatingStatusWindow.Dispose();
+    }
+
+    public Guid Id => Guid.Parse("D2DFC480-891F-4C66-B344-69D420561A11");
+
+    public string Name => Resources.ApplicationName;
+
+    public System.Drawing.Icon Icon => Resources.ApplicationIcon;
+
+    public bool HasSettingsMenu => true;
+
+    public bool HasAboutMenu => false;
+
+    public void ShowAbout()
+    {
+    }
+
+    public void ShowSettings()
+    {
+        var categoryPanels = new List<CategoryPanelBase>
+        {
+            new GeneralSettingsPanel(),
+            new UpdateSettingsPanel(),
+            new AboutSettingsPanel()
+        };
+
+        var settingsWindow = new CategoryWindow(categoryPanels, Resources.SettingsTitle, Resources.CloseButtonText);
+
+        settingsWindow.ShowDialog();
+
+        Save();
+    }
+
+    public bool HasRefreshMenu => false;
+
+    public void Refresh()
+    {
+        UpdateDisplay(_processCpuUsageWatcher.CurrentProcessList);
+    }
+
+    public string WindowSettings
+    {
+        get => Settings.Default.WindowSettings;
+        set
+        {
+            Settings.Default.WindowSettings = value;
+            Settings.Default.Save();
         }
+    }
 
-        private async Task<bool> UpdateApp()
+    private static class PredefinedProcessName
+    {
+        public const string Total = "_Total";
+        public const string Idle = "Idle";
+        public const string IdleWithProcessId = "Idle:0";
+    }
+
+    private void UpdateDisplay(Dictionary<string, ProcessCpuUsage> currentProcessList)
+    {
+        // Filter the process list to valid ones and exclude the idle and total values
+        var validProcessList = currentProcessList.Values.Where(process =>
+            process.UsageValid && process.ProcessName != PredefinedProcessName.Total &&
+            process.ProcessName != (_processCpuUsageWatcher.IsV2 ? PredefinedProcessName.IdleWithProcessId : PredefinedProcessName.Idle)).ToList();
+
+        // Calculate the total usage by adding up all the processes we know about
+        var totalUsage = validProcessList.Sum(process => process.PercentUsage);
+
+        // Sort the process list by usage and take only the top few
+        var sortedProcessList = validProcessList.OrderByDescending(process => process.PercentUsage).Take(Settings.Default.ProcessCount);
+
+        // Create a new string builder
+        var stringBuilder = new StringBuilder();
+
+        // Loop over all processes in the sorted list
+        foreach (var processCpuUsage in sortedProcessList)
         {
-            return await UpdateCheck.CheckUpdate(HandleUpdateStatus);
-        }
-
-        private void HandleUpdateStatus(UpdateCheck.UpdateStatus status, string message)
-        {
-            if (status == UpdateCheck.UpdateStatus.None)
-                message = Resources.Loading;
-
-            _dispatcher.Invoke(() => _floatingStatusWindow.SetText(message));
-        }
-
-        public void Dispose()
-        {
-            _processCpuUsageWatcher.Terminate();
-
-            _floatingStatusWindow.Save();
-            _floatingStatusWindow.Dispose();
-        }
-
-        public void ShowSettings()
-        {
-            var panels = new List<CategoryPanel>
-            {
-                new GeneralOptionsPanel(_processCpuUsageWatcher.IsV2),
-                new AboutOptionsPanel()
-            };
-
-            if (_optionsWindow == null)
-            {
-                _optionsWindow = new CategoryWindow(null, panels, Resources.ResourceManager, "OptionsWindow");
-                _optionsWindow.Closed += (o, args) => { _optionsWindow = null; };
-            }
-
-            var dialogResult = _optionsWindow.ShowDialog();
-
-            if (dialogResult.HasValue && dialogResult.Value)
-            {
-                Settings.Default.Save();
-
-                Refresh();
-            }
-        }
-
-        public void Refresh()
-        {
-            UpdateDisplay(_processCpuUsageWatcher.CurrentProcessList);
-        }
-
-        public string Name => Resources.ApplicationName;
-
-        public System.Drawing.Icon Icon => Resources.ApplicationIcon;
-
-        public bool HasSettingsMenu => true;
-        public bool HasRefreshMenu => true;
-        public bool HasAboutMenu => false;
-
-        public void ShowAbout()
-        {
-        }
-
-        public string WindowSettings
-        {
-            get => Settings.Default.WindowSettings;
-            set
-            {
-                Settings.Default.WindowSettings = value;
-                Settings.Default.Save();
-            }
-        }
-
-        #region Display updating
-
-        private static class PredefinedProcessName
-        {
-            public const string Total = "_Total";
-            public const string Idle = "Idle";
-            public const string IdleWithProcessId = "Idle:0";
-        }
-
-        private void UpdateDisplay(Dictionary<string, ProcessCpuUsage> currentProcessList)
-        {
-            // Filter the process list to valid ones and exclude the idle and total values
-            var validProcessList = (currentProcessList.Values.Where(
-                process =>
-                    process.UsageValid && process.ProcessName != PredefinedProcessName.Total &&
-                    process.ProcessName != (_processCpuUsageWatcher.IsV2 ? PredefinedProcessName.IdleWithProcessId : PredefinedProcessName.Idle))).ToList();
-
-            // Calculate the total usage by adding up all the processes we know about
-            var totalUsage = validProcessList.Sum(process => process.PercentUsage);
-
-            // Sort the process list by usage and take only the top few
-            var sortedProcessList = validProcessList.OrderByDescending(process => process.PercentUsage).Take(Settings.Default.ProcessCount);
-
-            // Create a new string builder
-            var stringBuilder = new StringBuilder();
-
-            // Add the header line (if any)
-            if (Resources.HeaderLine.Length > 0)
-            {
-                stringBuilder.AppendFormat(Resources.HeaderLine, totalUsage);
+            // Move to the next line if it isn't the first line
+            if (stringBuilder.Length != 0)
                 stringBuilder.AppendLine();
-                stringBuilder.AppendLine();
-            }
 
-            // Loop over all processes in the sorted list
-            foreach (var processCpuUsage in sortedProcessList)
+            if (_processCpuUsageWatcher.IsV2)
             {
-                // Move to the next line if it isn't the first line
-                if (stringBuilder.Length != 0)
-                    stringBuilder.AppendLine();
+                // Split the process name from the process ID
+                var colonPosition = processCpuUsage.ProcessName.LastIndexOf(':');
 
-                if (_processCpuUsageWatcher.IsV2)
-                {
-                    // Split the process name from the process ID
-                    var colonPosition = processCpuUsage.ProcessName.LastIndexOf(':');
+                var processName = processCpuUsage.ProcessName[..colonPosition];
+                var processId = processCpuUsage.ProcessName[(colonPosition + 1)..];
 
-                    var processName = processCpuUsage.ProcessName.Substring(0, colonPosition);
-                    var processId = processCpuUsage.ProcessName.Substring(colonPosition + 1);
+                var formatString = Settings.Default.ShowProcessId ? Resources.ProcessLineWithProcessId : Resources.ProcessLine;
 
-                    var formatString = Settings.Default.ShowProcessId ? Resources.ProcessLineWithProcessId : Resources.ProcessLine;
-
-                    // Format the process information into a string to display
-                    stringBuilder.AppendFormat(formatString, processName, processCpuUsage.PercentUsage, processId);
-                }
-                else
-                {
-                    // Format the process information into a string to display
-                    stringBuilder.AppendFormat(Resources.ProcessLine, processCpuUsage.ProcessName, processCpuUsage.PercentUsage);
-                }
+                // Format the process information into a string to display
+                stringBuilder.AppendFormat(formatString, processName, processCpuUsage.PercentUsage, processId);
             }
-
-            // Add the footer line (if any)
-            if (Resources.FooterLine.Length > 0)
+            else
             {
-                stringBuilder.AppendLine();
-                stringBuilder.AppendLine();
-                stringBuilder.AppendFormat(Resources.FooterLine, totalUsage);
+                // Format the process information into a string to display
+                stringBuilder.AppendFormat(Resources.ProcessLine, processCpuUsage.ProcessName, processCpuUsage.PercentUsage);
             }
-
-            // Update the window with the text
-            _floatingStatusWindow.SetText(stringBuilder.ToString());
         }
 
-        #endregion
+        // Add the footer line (if any)
+        if (Resources.FooterLine.Length > 0)
+        {
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat(Resources.FooterLine, totalUsage);
+        }
+
+        // Update the window with the text
+        _floatingStatusWindow.SetText(stringBuilder.ToString());
     }
 }

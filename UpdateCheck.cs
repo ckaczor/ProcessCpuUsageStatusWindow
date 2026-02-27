@@ -1,71 +1,50 @@
-﻿using Squirrel;
-using System;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Windows;
+using NuGet.Versioning;
+using Serilog;
+using Velopack;
+using Velopack.Sources;
 
-namespace ProcessCpuUsageStatusWindow
+namespace ProcessCpuUsageStatusWindow;
+
+internal static class UpdateCheck
 {
-    public static class UpdateCheck
+    private static UpdateManager _updateManager;
+
+    public static UpdateManager UpdateManager => _updateManager ??= new UpdateManager(new GithubSource("https://github.com/ckaczor/ProcessCpuUsageStatusWindow", null, false));
+
+    public static string LocalVersion => (UpdateManager.CurrentVersion ?? new SemanticVersion(0, 0, 0)).ToString();
+
+    public static bool IsInstalled => UpdateManager.IsInstalled;
+
+    public static async Task DisplayUpdateInformation(bool showIfCurrent)
     {
-        public enum UpdateStatus
+        var newVersion = IsInstalled ? await UpdateManager.CheckForUpdatesAsync() : null;
+
+        if (newVersion != null)
         {
-            Checking,
-            None,
-            Downloading,
-            Installing,
-            Restarting
+            var updateCheckTitle = string.Format(Properties.Resources.UpdateCheckTitle, Properties.Resources.ApplicationName);
+
+            var updateCheckMessage = string.Format(Properties.Resources.UpdateCheckNewVersion, newVersion.TargetFullRelease.Version);
+
+            if (MessageBox.Show(updateCheckMessage, updateCheckTitle, MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+                return;
+
+            Log.Logger.Information("Downloading update");
+
+            await UpdateManager.DownloadUpdatesAsync(newVersion);
+
+            Log.Logger.Information("Installing update");
+
+            UpdateManager.ApplyUpdatesAndRestart(newVersion);
         }
-
-        public delegate void UpdateStatusDelegate(UpdateStatus updateStatus, string message);
-
-        public static Version LocalVersion => Assembly.GetEntryAssembly().GetName().Version;
-        
-        public static async Task<bool> CheckUpdate(UpdateStatusDelegate onUpdateStatus)
+        else if (showIfCurrent)
         {
-            try
-            {
-                onUpdateStatus.Invoke(UpdateStatus.Checking, Properties.Resources.CheckingForUpdate);
+            var updateCheckTitle = string.Format(Properties.Resources.UpdateCheckTitle, Properties.Resources.ApplicationName);
 
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            var updateCheckMessage = string.Format(Properties.Resources.UpdateCheckCurrent, Properties.Resources.ApplicationName);
 
-                using (var updateManager = await UpdateManager.GitHubUpdateManager(App.UpdateUrl))
-                {
-                    var updates = await updateManager.CheckForUpdate();
-
-                    var lastVersion = updates?.ReleasesToApply?.OrderBy(releaseEntry => releaseEntry.Version).LastOrDefault();
-
-                    if (lastVersion == null)
-                    {
-                        onUpdateStatus.Invoke(UpdateStatus.None, Properties.Resources.NoUpdate);
-                        return false;
-                    }
-
-                    onUpdateStatus.Invoke(UpdateStatus.Downloading, Properties.Resources.DownloadingUpdate);
-
-                    Common.Settings.Extensions.BackupSettings();
-
-                    await updateManager.DownloadReleases(new[] { lastVersion });
-
-                    onUpdateStatus.Invoke(UpdateStatus.Installing, Properties.Resources.InstallingUpdate);
-
-                    await updateManager.ApplyReleases(updates);
-                    await updateManager.UpdateApp();
-                }
-
-                onUpdateStatus.Invoke(UpdateStatus.Restarting, Properties.Resources.RestartingAfterUpdate);
-
-                UpdateManager.RestartApp();
-
-                return true;
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-
-                return false;
-            }
+            MessageBox.Show(updateCheckMessage, updateCheckTitle, MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

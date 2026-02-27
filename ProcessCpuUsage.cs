@@ -1,60 +1,48 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace ProcessCpuUsageStatusWindow
+namespace ProcessCpuUsageStatusWindow;
+
+public class ProcessCpuUsage
 {
-    public class ProcessCpuUsage
+    public string ProcessName { get; private set; }
+    public float PercentUsage { get; private set; }
+    public DateTime LastFound { get; private set; }
+    public bool UsageValid { get; private set; }
+
+    private CounterSample LastSample { get; set; }
+
+    internal ProcessCpuUsage(InstanceData instanceData)
+        : this(instanceData, DateTime.MinValue)
     {
-        #region Properties
+    }
 
-        public string ProcessName { get; private set; }
-        public float PercentUsage { get; internal set; }
-        public DateTime LastFound { get; set; }
-        public bool UsageValid { get; private set; }
+    internal ProcessCpuUsage(InstanceData instanceData, DateTime timestamp)
+    {
+        // Store the process details
+        ProcessName = instanceData.InstanceName;
 
-        internal CounterSample LastSample { get; set; }
+        // Store the initial data
+        LastFound = timestamp;
+        LastSample = instanceData.Sample;
 
-        #endregion
+        // We start out as not valid
+        UsageValid = false;
+    }
 
-        #region Constructor
+    internal void UpdateCpuUsage(InstanceData instanceData, DateTime timestamp)
+    {
+        // Get the new sample
+        var newSample = instanceData.Sample;
 
-        internal ProcessCpuUsage(InstanceData instanceData)
-            : this(instanceData, DateTime.MinValue)
-        { }
+        // Calculate percent usage
+        PercentUsage = CounterSample.Calculate(LastSample, newSample) / Environment.ProcessorCount;
 
-        internal ProcessCpuUsage(InstanceData instanceData, DateTime timestamp)
-        {
-            // Store the process details
-            ProcessName = instanceData.InstanceName;
+        // Update the last sample and timestamp
+        LastSample = newSample;
+        LastFound = timestamp;
 
-            // Store the initial data
-            LastFound = timestamp;
-            LastSample = instanceData.Sample;
-
-            // We start out as not valid
-            UsageValid = false;
-        }
-
-        #endregion
-
-        #region Usage update
-
-        internal void UpdateCpuUsage(InstanceData instanceData, DateTime timestamp)
-        {
-            // Get the new sample
-            var newSample = instanceData.Sample;
-
-            // Calculate percent usage
-            PercentUsage = CounterSample.Calculate(LastSample, newSample) / Environment.ProcessorCount;
-
-            // Update the last sample and timestmap
-            LastSample = newSample;
-            LastFound = timestamp;
-
-            // Usage is now valid
-            UsageValid = true;
-        }
-
-        #endregion
+        // Usage is now valid
+        UsageValid = true;
     }
 }

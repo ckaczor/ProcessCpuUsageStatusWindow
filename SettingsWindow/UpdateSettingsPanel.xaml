@@ -1,0 +1,21 @@
+﻿<windows:CategoryPanelBase x:Class="ProcessCpuUsageStatusWindow.SettingsWindow.UpdateSettingsPanel"
+                          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                          xmlns:properties="clr-namespace:ProcessCpuUsageStatusWindow.Properties"
+                          xmlns:windows="clr-namespace:ChrisKaczor.Wpf.Windows;assembly=ChrisKaczor.Wpf.Windows.CategoryWindow"
+                          xmlns:processcpuusagestatuswindow="clr-namespace:ProcessCpuUsageStatusWindow"
+                          mc:Ignorable="d"
+                          d:DesignHeight="150"
+                          d:DesignWidth="250">
+    <StackPanel windows:Spacing.Vertical="10">
+        <CheckBox Content="{x:Static properties:Resources.checkVersionOnStartupCheckBox}"
+                  IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=CheckVersionAtStartup}"
+                  Click="OnSaveSettings" />
+        <Button Content="{x:Static properties:Resources.checkVersionNowButton}"
+                IsEnabled="{Binding Source={x:Static processcpuusagestatuswindow:UpdateCheck.IsInstalled}}"
+                HorizontalAlignment="Left"
+                Click="HandleCheckVersionNowButtonClick" />
+    </StackPanel>
+</windows:CategoryPanelBase>

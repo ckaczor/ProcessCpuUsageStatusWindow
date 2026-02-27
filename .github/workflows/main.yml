@@ -1,0 +1,36 @@
+﻿name: Deploy to GitHub Releases
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  deploy-to-github-releases:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Get next version
+        uses: reecetech/version-increment@2024.4.3
+        id: version
+        with:
+          scheme: calver
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish Application
+        run: dotnet publish ProcessCpuUsageStatusWindow.csproj -c Release -o publish
+
+      - name: Create Velopack Release
+        run: |
+          dotnet tool install -g vpk
+          vpk download github --repoUrl https://github.com/ckaczor/ProcessCpuUsageStatusWindow
+          vpk pack -u ProcessCpuUsageStatusWindow -v ${{ steps.version.outputs.version }} -p publish --packTitle "ProcessCpuUsageStatusWindow Status Window" --shortcuts StartMenuRoot --framework net10.0-x64-desktop
+          vpk upload github --repoUrl https://github.com/ckaczor/ProcessCpuUsageStatusWindow --publish --releaseName "${{ steps.version.outputs.version }}" --tag v${{ steps.version.outputs.version }} --token ${{ secrets.GITHUB_TOKEN }}

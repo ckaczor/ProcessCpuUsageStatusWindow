@@ -12,7 +12,7 @@ namespace ProcessCpuUsageStatusWindow.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "18.4.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -20,30 +20,6 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public int ProcessCount {
-            get {
-                return ((int)(this["ProcessCount"]));
-            }
-            set {
-                this["ProcessCount"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("00:00:02")]
-        public global::System.TimeSpan UpdateInterval {
-            get {
-                return ((global::System.TimeSpan)(this["UpdateInterval"]));
-            }
-            set {
-                this["UpdateInterval"] = value;
             }
         }
         
@@ -74,24 +50,60 @@ namespace ProcessCpuUsageStatusWindow.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool FirstRun {
+        public bool CheckVersionAtStartup {
             get {
-                return ((bool)(this["FirstRun"]));
+                return ((bool)(this["CheckVersionAtStartup"]));
             }
             set {
-                this["FirstRun"] = value;
+                this["CheckVersionAtStartup"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("[]")]
+        public string Items {
+            get {
+                return ((string)(this["Items"]));
+            }
+            set {
+                this["Items"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int ProcessCount {
+            get {
+                return ((int)(this["ProcessCount"]));
+            }
+            set {
+                this["ProcessCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowProcessId {
             get {
                 return ((bool)(this["ShowProcessId"]));
             }
             set {
                 this["ShowProcessId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:02")]
+        public global::System.TimeSpan UpdateInterval {
+            get {
+                return ((global::System.TimeSpan)(this["UpdateInterval"]));
+            }
+            set {
+                this["UpdateInterval"] = value;
             }
         }
     }
